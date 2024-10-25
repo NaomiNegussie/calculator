@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Reaction Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            text-align: center;
+            margin: 0;
+        }
+        input {
+            width: 200px;
+            height: 40px;
+            font-size: 20px;
+            text-align: right;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+        button {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 60px);
+            gap: 10px;
+        }
+        .reaction {
+            font-size: 30px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Emoji Reaction Calculator</h1>
+<input type="text" id="display" disabled>
+<div class="calculator">
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="appendToDisplay('/')">/</button>
+    <button onclick="appendToDisplay('*')">*</button>
+    <button onclick="appendToDisplay('-')">-</button>
+    <button onclick="appendToDisplay('7')">7</button>
+    <button onclick="appendToDisplay('8')">8</button>
+    <button onclick="appendToDisplay('9')">9</button>
+    <button onclick="appendToDisplay('+')">+</button>
+    <button onclick="appendToDisplay('4')">4</button>
+    <button onclick="appendToDisplay('5')">5</button>
+    <button onclick="appendToDisplay('6')">6</button>
+    <button onclick="calculateResult()">=</button>
+    <button onclick="appendToDisplay('1')">1</button>
+    <button onclick="appendToDisplay('2')">2</button>
+    <button onclick="appendToDisplay('3')">3</button>
+    <button onclick="appendToDisplay('0')">0</button>
+</div>
+
+<div class="reaction" id="reaction"></div>
+
+<script>
+    function appendToDisplay(value) {
+        const display = document.getElementById('display');
+        display.value = display.value === "Error" ? value : display.value + value;
+    }
+
+    function clearDisplay() {
+        document.getElementById('display').value = '';
+        document.getElementById('reaction').textContent = '';
+    }
+
+    function calculateResult() {
+        const display = document.getElementById('display');
+        const reaction = document.getElementById('reaction');
+        try {
+            const result = eval(display.value);
+            display.value = result || '';
+
+            // Set emoji reactions based on the result
+            if (result > 0) {
+                reaction.textContent = '😃'; // Happy emoji for positive results
+            } else if (result === 0) {
+                reaction.textContent = '😐'; // Neutral emoji for zero
+            } else {
+                reaction.textContent = '😢'; // Sad emoji for negative results
+            }
+        } catch {
+            display.value = 'Error';
+            reaction.textContent = '😱'; // Shocked emoji for errors
+        }
+    }
+</script>
+
+</body>
+</html>
